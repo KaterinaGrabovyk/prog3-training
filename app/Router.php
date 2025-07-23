@@ -8,6 +8,10 @@ use App\Exceptions\RouteNotFoundException;
 
 class Router
 {
+    public function __construct(private Container $container)
+    {
+        
+    }
     private array $routes = [];
 
     public function register(string $requestMethod, string $route, callable|array $action): self
@@ -48,7 +52,8 @@ class Router
         [$class, $method] = $action;
 
         if (class_exists($class)) {
-            $class = new $class();
+            // $class = new $class();
+            $class = $this->container->get($class);
 
             if (method_exists($class, $method)) {
                 return call_user_func_array([$class, $method], []);
