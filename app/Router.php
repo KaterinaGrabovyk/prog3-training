@@ -54,7 +54,6 @@ class Router
 
         if (class_exists($class)) {
             //!
-            // $class = new $class();
             $class = $this->container->get($class);
             //!
 

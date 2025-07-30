@@ -17,9 +17,6 @@ class HomeController
     }
     public function index(): View
     {
-        // App::$container->get(InvoiceService::class)->process([],23);
-
-        // (new Container)->get(InvoiceService::class)->process([],23);
         //!
         $this->invoiceService->process([],25);
         //!

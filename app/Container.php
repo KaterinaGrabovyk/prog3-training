@@ -5,33 +5,28 @@ declare(strict_types=1);
 namespace App;
 
 use App\Exceptions\Container\ContainerException;
-use App\Exceptions\NotFoundException;
 use Psr\Container\ContainerInterface;
 use ReflectionUnionType;
 
 class Container implements ContainerInterface
 {
     private array $entries=[];
-
-    public function set(string $id,callable $concrete):void
+    //!3.5
+    public function set(string $id,callable|string $concrete):void
     {
         $this->entries[$id]=$concrete;
     }
 
     public function get(string $id)
     {
-        // if(!$this->has($id)){
-        //     throw new NotFoundException('Class "'.$id.'" has no binding');
-        // }
-
-        // $entry=$this->entries[$id];
-
-        // return $entry($this);
 
         if($this->has($id)){
             $entry=$this->entries[$id];
-
-            return $entry($this);
+            //!3.5  
+            if(is_callable($entry)){
+                return $entry($this);
+            }
+            $id=$entry;
         }
        return $this->resolve($id);
 
